@@ -7,7 +7,7 @@
  * MIT Licensed
  */
 
-(function($) {
+(function ($) {
 
   // Cached vars
   var _iCheck = 'iCheck',
@@ -31,13 +31,13 @@
     _mobile = /ipad|iphone|ipod|android|blackberry|windows phone|opera mini|silk/i.test(navigator.userAgent);
 
   // Plugin init
-  $.fn[_iCheck] = function(options, fire) {
+  $.fn[_iCheck] = function (options, fire) {
 
     // Walker
     var handle = 'input[type="' + _checkbox + '"], input[type="' + _radio + '"]',
       stack = $(),
-      walker = function(object) {
-        object.each(function() {
+      walker = function (object) {
+        object.each(function () {
           var self = $(this);
 
           if (self.is(handle)) {
@@ -57,7 +57,7 @@
       // Find checkboxes and radio buttons
       walker(this);
 
-      return stack.each(function() {
+      return stack.each(function () {
         var self = $(this);
 
         if (options == 'destroy') {
@@ -72,16 +72,16 @@
         }
       });
 
-    // Customization
+      // Customization
     } else if (typeof options == 'object' || !options) {
 
       // Check if any options were passed
       var settings = $.extend({
-          checkedClass: _checked,
-          disabledClass: _disabled,
-          indeterminateClass: _indeterminate,
-          labelHover: true
-        }, options),
+        checkedClass: _checked,
+        disabledClass: _disabled,
+        indeterminateClass: _indeterminate,
+        labelHover: true
+      }, options),
 
         selector = settings.handle,
         hoverClass = settings.hoverClass || 'hover',
@@ -106,7 +106,7 @@
       // Walk around the selector
       walker(this);
 
-      return stack.each(function() {
+      return stack.each(function () {
         var self = $(this);
 
         // If already customized
@@ -119,7 +119,7 @@
           offset = -area + '%',
           size = 100 + (area * 2) + '%',
           layer = {
-            // position: 'absolute', -> This cause the helper area to grow too big in EgisUI.Dialog.Show
+            position: 'absolute',
             top: offset,
             left: offset,
             display: 'block',
@@ -151,7 +151,7 @@
           aria = !!settings.aria,
 
           // Set ARIA placeholder
-          ariaID = _iCheck + '-' + Math.random().toString(36).substr(2,6),
+          ariaID = _iCheck + '-' + Math.random().toString(36).substr(2, 6),
 
           // Parent & helper
           parent = '<div class="' + className + '" ' + (aria ? 'role="' + node[_type] + '" ' : ''),
@@ -159,7 +159,7 @@
 
         // Set ARIA "labelledby"
         if (aria) {
-          label.each(function() {
+          label.each(function () {
             parent += 'aria-labelledby="';
 
             if (this.id) {
@@ -180,7 +180,7 @@
         helper = $('<ins class="' + _iCheckHelper + '"/>').css(layer).appendTo(parent);
 
         // Finalize customization
-        self.data(_iCheck, {o: settings, s: self.attr('style')}).css(hide);
+        self.data(_iCheck, { o: settings, s: self.attr('style') }).css(hide);
         !!settings.inheritClass && parent[_add](node.className || '');
         !!settings.inheritID && id && parent.attr('id', _iCheck + '-' + id);
         parent.css('position') == 'static' && parent.css('position', 'relative');
@@ -188,7 +188,7 @@
 
         // Label events
         if (label.length) {
-          label.on(_click + '.i mouseover.i mouseout.i ' + _touch, function(event) {
+          label.on(_click + '.i mouseover.i mouseout.i ' + _touch, function (event) {
             var type = event[_type],
               item = $(this);
 
@@ -202,7 +202,7 @@
                 }
                 operate(self, false, true);
 
-              // Hover state
+                // Hover state
               } else if (labelHover) {
 
                 // mouseout|touchend
@@ -225,7 +225,7 @@
         }
 
         // Input events
-        self.on(_click + '.i focus.i blur.i keyup.i keydown.i keypress.i', function(event) {
+        self.on(_click + '.i focus.i blur.i keyup.i keydown.i keypress.i', function (event) {
           var type = event[_type],
             key = event.keyCode;
 
@@ -233,7 +233,7 @@
           if (type == _click) {
             return false;
 
-          // Keydown
+            // Keydown
           } else if (type == 'keydown' && key == 32) {
             if (!(node[_type] == _radio && node[_checked])) {
               if (node[_checked]) {
@@ -245,18 +245,18 @@
 
             return false;
 
-          // Keyup
+            // Keyup
           } else if (type == 'keyup' && node[_type] == _radio) {
             !node[_checked] && on(self, _checked);
 
-          // Focus/blur
+            // Focus/blur
           } else if (/us|ur/.test(type)) {
             parent[type == 'blur' ? _remove : _add](focusClass);
           }
         });
 
         // Helper events
-        helper.on(_click + ' mousedown mouseup mouseover mouseout ' + _touch, function(event) {
+        helper.on(_click + ' mousedown mouseup mouseover mouseout ' + _touch, function (event) {
           var type = event[_type],
 
             // mousedown|mouseup
@@ -269,7 +269,7 @@
             if (type == _click) {
               operate(self, false, true);
 
-            // Active and hover states
+              // Active and hover states
             } else {
 
               // State is on
@@ -278,7 +278,7 @@
                 // mousedown|mouseover|touchbegin
                 parent[_add](toggle);
 
-              // State is off
+                // State is off
               } else {
                 parent[_remove](toggle + ' ' + activeClass);
               }
@@ -318,11 +318,11 @@
     if (/^(ch|di|in)/.test(method) && !active) {
       on(input, state);
 
-    // Uncheck, enable or determinate
+      // Uncheck, enable or determinate
     } else if (/^(un|en|de)/.test(method) && active) {
       off(input, state);
 
-    // Update
+      // Update
     } else if (method == _update) {
 
       // Handle states
@@ -373,7 +373,7 @@
 
         inputs = form.length ? form.find(inputs) : $(inputs);
 
-        inputs.each(function() {
+        inputs.each(function () {
           if (this !== node && $(this).data(_iCheck)) {
             off($(this), state);
           }
@@ -391,7 +391,7 @@
           off(input, _checked, 'force');
         }
 
-      // Checked or disabled state
+        // Checked or disabled state
       } else {
 
         // Add checked or disabled state
